@@ -20,11 +20,12 @@ Web Interface Guide
 
   - [EPG Grid](epg)
 
-* DVR
+* Digital Video Recorder
 
-  - [Upcoming/Current Recordings](class/dvrentry)
-  - [Finished Recordings](class/dvrentry)
-  - [Failed Recordings](class/dvrentry)
+  - [DVR Entries](class/dvrentry)
+  - [Upcoming/Current Recordings](dvr_upcoming)
+  - [Finished Recordings](dvr_finished)
+  - [Failed Recordings](dvr_failed)
   - [DVR AutoRec Entries](class/dvrautorec)
   - [Time Schedules (TimeRec)](class/dvrtimerec)
 
@@ -59,8 +60,10 @@ Web Interface Configuration Guide
   - [EPG Grabber](class/epggrab)
   - EPG Grabber Modules
     - [OTA Module](class/epggrab_mod_ota)
-    - [Internal Module](class/epggrab_mod_int)
-    - [External Module](class/epggrab_mod_ext)
+    - [Internal PyEPG](class/epggrab_mod_int_pyepg)
+    - [Internal XMLTV](class/epggrab_mod_int_xmltv)
+    - [External PyEPG](class/epggrab_mod_ext_pyepg)
+    - [External XMLTV](class/epggrab_mod_ext_xmltv)
 
 * Stream
 

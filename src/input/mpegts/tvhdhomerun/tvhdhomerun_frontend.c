@@ -21,6 +21,7 @@
 #include "tvheadend.h"
 #include "tvhpoll.h"
 #include "streaming.h"
+#include "tcp.h"
 #include "tvhdhomerun_private.h"
 
 static int
@@ -650,13 +651,13 @@ tvhdhomerun_frontend_delete ( tvhdhomerun_frontend_t *hfe )
 {
   lock_assert(&global_lock);
 
+  /* Ensure we're stopped */
+  mpegts_input_stop_all((mpegts_input_t*)hfe);
+
   mtimer_disarm(&hfe->hf_monitor_timer);
 
   hdhomerun_device_tuner_lockkey_release(hfe->hf_hdhomerun_tuner);
   hdhomerun_device_destroy(hfe->hf_hdhomerun_tuner);
-
-  /* Ensure we're stopped */
-  mpegts_input_stop_all((mpegts_input_t*)hfe);
 
   /* Remove from adapter */
   TAILQ_REMOVE(&hfe->hf_device->hd_frontends, hfe, hf_link);
@@ -722,8 +723,10 @@ tvhdhomerun_frontend_create(tvhdhomerun_device_t *hd, struct hdhomerun_discover_
        strstr(hfe->mi_name, " Tuner ") &&
        strstr(hfe->mi_name, " #"))) {
     char lname[256];
+    char ip[64];
+    tcp_get_str_from_ip((struct sockaddr *)&hd->hd_info.ip_address, ip, sizeof(ip));
     snprintf(lname, sizeof(lname), "HDHomeRun %s Tuner #%i (%s)",
-             dvb_type2str(type), hfe->hf_tunerNumber, hd->hd_info.ip_address);
+             dvb_type2str(type), hfe->hf_tunerNumber, ip);
     free(hfe->mi_name);
     hfe->mi_name = strdup(lname);
   }

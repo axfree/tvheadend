@@ -38,7 +38,13 @@ but they do go out of date as broadcasters move services around and national
 authorities change entire pieces of spectrum. As such, you should try the
 pre-defined values, but you may need to add muxes manually.
 
-**TODO: Critical configuration items at this stage: ........**
+* When creating a DVB-S network, be sure to set the orbital 
+position of the satellite to which your dish is pointing, as some satellites 
+provide additional information related to other nearby satellites that 
+you may not be able to receive.
+
+* Network discovery (enabled by default) increases the likelihood of 
+receiving all available muxes and services.
 
 ###3. Associate the Network with the Respective Tuner(s)
 
@@ -54,13 +60,11 @@ and then associate an HD DVB-T2 (e.g. H.264) network with HD tuners, while
 having a separate SD network associated with an independent SD (e.g. MPEG-2)
 tuner. 
 
-**TODO: Critical configuration items at this stage: ........**
-
 At this point, your tuners now know what networks to use: one network can
 appear on multiple tuners (many-to-one), and one tuner can have multiple
 networks.
 
-### 4. If Necessary, Manually Add Muxes
+###4. If Necessary, Manually Add Muxes
 
 **Tvheadend web interface: _Configuration -> DVB Inputs -> Muxes_**
 
@@ -69,13 +73,16 @@ when you set up your initial network. However, should there be any issues,
 this is where you can manually add missing muxes. You only really need to
 worry about this if the pre-defined list didn't work (e.g. because of
 out-of-date data as broadcasters re-arrange their services or because automatic
-detection hasn't successfully found all the muxes over time. 
+detection (network discovery) hasn't successfully found all the muxes over time. 
 
 If you do need to add something manually, you'll need to search the Internet
 for details of the appropriate transmitter and settings: satellites tend not
 to change much and are universal over a large area, but terrestrial muxes
 are typically very localised and you'll need to know which specific transmitter
 you're listening to. 
+
+**Note**: some tuners (or drivers) require more tuning parameters than others so 
+**be sure to enter as many tuning parameters as possible**.
 
 Good sources of transmitter/mux information include:
 
@@ -86,15 +93,12 @@ Good sources of transmitter/mux information include:
 * [Interactive EU DVB-T map](http://www.dvbtmap.eu/mapmux.html) for primarily
 central and northern Europe
 
-> other major sources....?
-##NOTE: TODO: TEXT REQUIRED
+* [Lyngsat](http://www.lyngsat.com/) for worldwide satellite information.
 
 You can also use [dvbscan](http://www.linuxtv.org/wiki/index.php/Dvbscan) to
 force a scan and effectively ask your tuner what it can see.
- 
-**TODO: Critical configuration items at this stage: ........**
 
-### 5. Scan for Services
+###5. Scan for Services
 
 **Tvheadend web interface: _Configuration -> DVB Inputs -> Services_**
 
@@ -106,33 +110,71 @@ on that mux, each of which is identified by a series of unique identifiers
 that describe the audio stream(s), the video stream(s), the subtitle stream(s)
 and language(s), and so on.
 
-(For the technically-minded, these unique identifiers - the elementary streams
-- are referred to as 'packet identifiers' or 'PIDs').
+(For the technically-minded, these unique identifiers - the elementary streams - are referred to as 'packet identifiers' or 'PIDs').
 
-> To force a scan ...
-##NOTE: TODO: TEXT REQUIRED
+####5.1. Forcing a Scan
 
-### 6. Map Services to Channels
+  You may force a scan by going to:
+
+  **Tvheadend web interface: _Configuration -> DVB Inputs -> Networks_**
+
+  Highlight the network(s) you would like to force scan and then press 
+  the "Force Scan" button. 
+  
+  Force scanning can take some time. You may continue to use Tvheadend 
+  while a scan is in progress, but doing so will increase the time 
+  needed for it to complete. Note that the time required can vary 
+  depending on a number of factors, such as how many tuners you 
+  have available and the number of muxes on each.
+  
+  **Tip**: You may select more than one network by holding ctrl and 
+  clicking on additional networks. 
+
+###6. Map Services to Channels
 
 Once scanning for services is complete, you need to map the services to 
 channels so your client can actually request them (i.e. so you can watch
-or record). You can do this in two places:
+or record).
 
 **Tvheadend web interface: _Configuration -> DVB Inputs -> Services_**
 
-Press the "Map All" button. Note the resultant dialog box that allows you
-to exclude some services from the mapping: this is covered in more detail
-later in this guide. 
+####6.1. Mapping All
 
-**Tvheadend web interface: _Configuration -> Channel/EPG -> Channels_**
+  Press the "Map services" button and then "Map all services". 
+  
+  A dialog will then appear with the list of available services and various 
+  other mapping options. The ticked check boxes [✓] indicate which 
+  services will be mapped, when you're happy with the selection press 
+  the "Map services" button. You will then be taken to the Service 
+  Mapper tab which will begin mapping services to channels. 
+  
+####6.2. Mapping Selected
 
-Press the "Map Services" button. Again, you can exclude services as you
-can for 'Map All', above.
+  While holding ctrl (single selection) or shift (to select a range), 
+  click on the services you would like to map as channels. Once you're 
+  done selecting, press the "Map services" button and then 
+  "Map selected services" - **be careful not to click on the grid or 
+  you'll lose your selection!**
+    
+  A dialog will then appear with the list of available services and 
+  various other mapping options. The ticked check boxes [✓] indicate 
+  which services will be mapped, when you're happy with the selection 
+  press the "Map services" button. You will then be taken to the 
+  Service Mapper tab which will begin mapping services to channels. 
 
-> Any explanation on how a channel can map to multiple services <......>
+  **Tip**: By default Tvheadend will only show a small selection of 
+  available services - you can increase this by using the paging 
+  selector at the bottom right of the page.
 
-> Anything about using bouquets
-##NOTE: TODO: TEXT REQUIRED
+####6.3. Bouquets
+
+  **Tvheadend web interface: _Configuration -> Channel / EPG -> Bouquets_**
+
+  Many service providers use bouquets for channel management and just 
+  like a standard set-top box Tvheadend can use these to automatically 
+  manage and keep your channels up-to-date.
+  
+  If you would like to use bouquets see [Bouquets](class/bouquet).
 
 ### 7. Watch TV
 
